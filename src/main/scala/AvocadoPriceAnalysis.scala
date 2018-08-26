@@ -22,8 +22,9 @@ object AvocadoPriceAnalysis {
     }).toDF()
 
 //    inputDf.filter($"TotalVolume">1000000 && $"region".notEqual("Albany")).collect().foreach(println)
-    inputDf.groupBy("region").sum("TotalVolume").sort("region").collect().foreach(println)
+   var totalVolumePerRegion=inputDf.groupBy("region").sum("TotalVolume").withColumnRenamed("sum(TotalVolume)","TotalVolume")
 
+    totalVolumePerRegion.sort("TotalVolume").collect().foreach(println)
   }
   case class Avocado(Date: Date,AveragePrice:Double,TotalVolume:Double,_4046:Double,_4225:Double,_4770: Double,TotalBags:Double,SmallBags: Double,LargeBags: Double,XLargeBags: Double,_type: String, year: String,region: String)
 }
